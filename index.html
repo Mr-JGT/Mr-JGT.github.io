@@ -1,179 +1,528 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="corporate" data-scheme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Jagan Guru Teja Ponugupati — Data Engineer portfolio">
-  <title>Jagan Guru Teja Ponugupati | Data Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jagan Ponugupati — Data Engineer</title>
+  <script>
+    /* apply saved mode/scheme before first paint to avoid theme flash */
+    (function () {
+      try {
+        var t = localStorage.getItem("jagan-theme");
+        var s = localStorage.getItem("jagan-scheme");
+        var d = document.documentElement;
+        if (t === "slayer" || t === "corporate") d.setAttribute("data-theme", t);
+        if (s === "light" || s === "dark") d.setAttribute("data-scheme", s);
+        else if (t === "slayer") d.setAttribute("data-scheme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="description" content="Jagan Ponugupati — Data Engineer with 3.5+ years building scalable ETL/ELT pipelines for enterprise data integration, cloud migration and analytics. Azure Data Factory · Microsoft Fabric · SQL · PySpark · Power BI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="jp-logo.png" />
 </head>
 <body>
-  <header class="nav">
-    <a class="brand" href="#home">JGT<span>.</span></a>
-    <button class="menu" aria-label="Open menu">☰</button>
-    <nav id="navLinks">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#certifications">Certifications</a>
-      <a href="#contact">Contact</a>
+
+  <!-- ember / particle canvas -->
+  <canvas id="embers" aria-hidden="true"></canvas>
+
+  <!-- lightning strikes (slayer mode, every 8s) -->
+  <div class="lightning" aria-hidden="true">
+    <svg class="bolt b1" viewBox="0 0 100 600" preserveAspectRatio="none">
+      <path d="M55 0 L46 110 L61 122 L38 270 L56 280 L28 440 L50 452 L36 600" />
+    </svg>
+    <svg class="bolt b2" viewBox="0 0 100 600" preserveAspectRatio="none">
+      <path d="M38 0 L52 86 L36 104 L60 250 L42 262 L64 410 L48 424 L58 600" />
+    </svg>
+    <div class="flash"></div>
+  </div>
+
+  <!-- intro overlay: energy core boot sequence, splits open when ready -->
+  <div class="intro-slash" id="introSlash" aria-hidden="true">
+    <div class="intro-panel panel-top"></div>
+    <div class="intro-panel panel-bottom"></div>
+    <div class="slash-line"></div>
+    <div class="intro-core">
+      <div class="core-ring">
+        <span class="core-ring-b"></span>
+        <span class="core-ticks"></span>
+        <span class="core-pct" id="introPct">0</span>
+      </div>
+      <div class="core-status"><span class="status-dot"></span><span id="introStatus">BOOTING</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav-logo">
+      <span class="logo-text">JAGAN <em>PONUGUPATI</em></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#about" data-jp="//01">About</a>
+      <a href="#skills" data-jp="//02" data-slayer="Breathing Styles" data-corp="Skills">Skills</a>
+      <a href="#experience" data-jp="//03" data-slayer="The Path" data-corp="Experience">Experience</a>
+      <a href="#projects" data-jp="//04" data-slayer="Missions" data-corp="Projects">Projects</a>
+      <a href="#honors" data-jp="//05">Credentials</a>
+      <a href="#contact" data-jp="//06">Contact</a>
     </nav>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Switch between Pro and Slayer mode">
+        <span class="toggle-track">
+          <span class="toggle-opt opt-corp">💼 Pro</span>
+          <span class="toggle-opt opt-slayer">⚔ Slayer</span>
+          <span class="toggle-thumb"></span>
+        </span>
+      </button>
+      <button class="scheme-toggle" id="schemeToggle" aria-label="Toggle light or dark scheme" title="Light / Dark">
+        <svg class="sm-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <g class="sun">
+            <circle cx="12" cy="12" r="4.4" fill="currentColor"/>
+            <g class="rays" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <line x1="12" y1="1.5" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22.5"/>
+              <line x1="1.5" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22.5" y2="12"/>
+              <line x1="4.6" y1="4.6" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.4" y2="19.4"/>
+              <line x1="4.6" y1="19.4" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.4" y2="4.6"/>
+            </g>
+          </g>
+          <path class="moon" fill="currentColor" d="M14.5 2.6 a9.4 9.4 0 1 0 6.9 14.4 a8 8 0 0 1 -6.9 -14.4 Z"/>
+        </svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </header>
 
-  <main>
-    <section id="home" class="hero section">
-      <div class="hero-copy">
-        <p class="eyebrow">DATA ENGINEER • MICROSOFT FABRIC • AZURE</p>
-        <h1>Building reliable data platforms from <span>source to insight.</span></h1>
-        <p class="lead">
-          Data Engineer with nearly 4 years of experience specializing in Microsoft Fabric and Azure Data Factory,
-          with hands-on work across cloud migration, ETL/ELT, data warehousing, Salesforce CPQ integration and analytics.
-        </p>
-        <div class="actions">
-          <a class="btn primary" href="#projects">View Projects</a>
-          <a class="btn secondary" href="assets/JaganPonugupati_Resume.pdf" download>Download Resume</a>
-        </div>
-        <div class="quick">
-          <span>📍 Hyderabad, India</span>
-          <span>✉️ jagangurutejajob@gmail.com</span>
-          <span>☎️ +91 809-608-3180</span>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="terminal-top"><span></span><span></span><span></span></div>
-        <div class="terminal">
-          <p><b>$</b> data-platform --build</p>
-          <p class="muted">Architecture</p>
-          <p>Bronze → Silver → Gold</p>
-          <p class="muted">Processing</p>
-          <p>ADF + Fabric + PySpark + SQL</p>
-          <p class="muted">Delivery</p>
-          <p>Azure DevOps + Git + CI/CD</p>
-          <p class="success">✓ Production-ready pipelines</p>
-        </div>
-      </div>
-    </section>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-kanji" aria-hidden="true">DATA//FLOW</div>
+    <div class="checker-strip top" aria-hidden="true"></div>
 
-    <section id="about" class="section">
-      <div class="section-head"><p class="eyebrow">01 — ABOUT</p><h2>Data engineering with a migration mindset.</h2></div>
-      <div class="about-grid">
-        <p>
-          I design and build scalable ETL/ELT pipelines for enterprise data integration, cloud migration and analytics.
-          My experience includes Microsoft Fabric Lakehouse and Warehouse solutions, Azure Data Factory,
-          PySpark notebooks, Delta Lake, dimensional modeling, incremental loading and SCD Type 1 & 2.
+    <div class="hero-inner">
+      <div class="hero-text reveal">
+        <div class="hashira-walk" aria-hidden="true">
+          <!-- distant row: faint, smaller, slower (parallax depth) -->
+          <svg class="row row-far" viewBox="0 0 640 80" height="48" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(60, 9)"><g class="bob">
+              <circle cx="0" cy="8" r="6" fill="currentColor"/>
+              <path d="M -7 15 Q -10 36 -17 60 L -8 60 L -3 40 L 2 60 L 11 60 Q 6 36 7 15 Z" fill="currentColor"/>
+              <line x1="6" y1="20" x2="22" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </g></g>
+            <g transform="translate(220, 14) scale(0.9)"><g class="bob b3">
+              <circle cx="0" cy="8" r="6.5" fill="currentColor"/>
+              <path d="M -8 15 Q -9 34 -14 60 L -5 60 L -1 42 L 4 60 L 12 60 Q 6 34 7 15 Z" fill="currentColor"/>
+              <line x1="-6" y1="30" x2="-20" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </g></g>
+            <g transform="translate(400, 4) scale(1.05)"><g class="bob b2">
+              <circle cx="0" cy="8" r="5.5" fill="currentColor"/>
+              <path d="M -6 14 Q -11 38 -19 60 L -9 60 L -3 38 L 3 60 L 13 60 Q 6 38 6 14 Z" fill="currentColor"/>
+              <line x1="5" y1="24" x2="20" y2="34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </g></g>
+            <g transform="translate(560, 12) scale(0.92)"><g class="bob b4">
+              <circle cx="0" cy="8" r="7" fill="currentColor"/>
+              <path d="M -8 16 Q -8 36 -12 60 L -4 60 L 0 44 L 5 60 L 12 60 Q 7 36 7 16 Z" fill="currentColor"/>
+              <line x1="7" y1="18" x2="20" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </g></g>
+          </svg>
+          <!-- near row: detailed slayers with flowing capes, hair & blades -->
+          <svg class="row row-near" viewBox="0 0 700 90" height="88" xmlns="http://www.w3.org/2000/svg">
+            <!-- flame-haired, flared coat, blade on shoulder -->
+            <g transform="translate(55, 8)"><g class="bob">
+              <path class="cape c1" d="M-4 20 C-13 32 -17 50 -25 68 L-12 63 C-13 46 -8 32 -2 22 Z" fill="currentColor" opacity="0.8"/>
+              <path d="M-5 4 L-7 -4 L-3 1 L0 -7 L3 1 L7 -4 L5 4 Z" fill="currentColor"/>
+              <circle cx="0" cy="10" r="5.6" fill="currentColor"/>
+              <path d="M-6 17 Q-8 34 -11 46 L-5 72 L-1 52 L5 72 L11 46 Q8 34 6 17 Z" fill="currentColor"/>
+              <path d="M5 26 L22 10 L24 12 L7 28 Z" fill="currentColor"/>
+            </g></g>
+            <!-- petite, butterfly ornaments, reverse-grip blade -->
+            <g transform="translate(175, 19) scale(0.85)"><g class="bob b2">
+              <ellipse class="wing" cx="-7" cy="1" rx="4.5" ry="2.2" fill="currentColor" opacity="0.75" transform="rotate(-28 -7 1)"/>
+              <ellipse class="wing w2" cx="7" cy="1" rx="4.5" ry="2.2" fill="currentColor" opacity="0.75" transform="rotate(28 7 1)"/>
+              <circle cx="0" cy="9" r="5.4" fill="currentColor"/>
+              <path class="cape c2" d="M3 20 C10 32 14 48 20 64 L9 60 C9 44 5 31 1 21 Z" fill="currentColor" opacity="0.8"/>
+              <path d="M-5 16 Q-6 32 -8 44 L-3 70 L0 54 L4 70 L8 44 Q6 32 5 16 Z" fill="currentColor"/>
+              <path d="M-4 28 L-19 22 L-19.5 24.5 L-5 30 Z" fill="currentColor"/>
+            </g></g>
+            <!-- tall leader: twin capes, long ponytail -->
+            <g transform="translate(315, 1) scale(1.08)"><g class="bob b3">
+              <path class="cape c3" d="M-5 18 C-16 30 -22 48 -30 66 L-14 61 C-15 44 -9 30 -2 20 Z" fill="currentColor" opacity="0.75"/>
+              <path class="cape c4" d="M5 18 C14 30 19 46 25 62 L12 58 C12 43 8 30 2 20 Z" fill="currentColor" opacity="0.75"/>
+              <path d="M2 4 C6 8 7 18 6 28 L3 26 C4 17 3 9 0 5 Z" fill="currentColor"/>
+              <circle cx="0" cy="9" r="5.6" fill="currentColor"/>
+              <path d="M-6 16 Q-8 34 -11 47 L-5 72 L-1 53 L5 72 L11 47 Q8 34 6 16 Z" fill="currentColor"/>
+              <path d="M6 24 L24 14 L25 16.5 L7 26.5 Z" fill="currentColor"/>
+            </g></g>
+            <!-- broad shoulders, spiky hair, blade lowered -->
+            <g transform="translate(455, 11) scale(0.95)"><g class="bob b4">
+              <path d="M-6 3 L-8 -2 L-4 0 L-1 -5 L2 0 L6 -3 L7 3 Z" fill="currentColor"/>
+              <circle cx="0" cy="9" r="6" fill="currentColor"/>
+              <path class="cape c5" d="M-5 19 C-12 31 -15 48 -21 64 L-10 60 C-11 44 -7 31 -1 21 Z" fill="currentColor" opacity="0.8"/>
+              <path d="M-7 17 Q-8 34 -10 46 L-4 70 L0 53 L5 70 L11 46 Q9 34 7 17 Z" fill="currentColor"/>
+              <path d="M8 30 L13 48 L10.5 49 L5.8 31 Z" fill="currentColor"/>
+            </g></g>
+            <!-- kasa-hat wanderer, blade angled down -->
+            <g transform="translate(600, 7)"><g class="bob b5">
+              <path d="M-12 6 Q0 -4 12 6 L8 8 Q0 3 -8 8 Z" fill="currentColor"/>
+              <circle cx="0" cy="11" r="5" fill="currentColor"/>
+              <path class="cape c1" d="M-4 20 C-11 32 -14 49 -19 65 L-9 61 C-10 45 -6 32 -1 22 Z" fill="currentColor" opacity="0.8"/>
+              <path d="M-6 17 Q-7 34 -9 46 L-4 71 L0 53 L4 71 L9 46 Q7 34 6 17 Z" fill="currentColor"/>
+              <path d="M6 24 L20 38 L18 40 L4.5 26 Z" fill="currentColor"/>
+            </g></g>
+          </svg>
+        </div>
+        <p class="hero-eyebrow"><span class="blink-dot"></span><span data-slayer="DATA SLAYER CORPS — CLOUD OPS DIVISION" data-corp="AZURE & FABRIC DATA ENGINEER — CLOUD &amp; ANALYTICS">DATA SLAYER CORPS — CLOUD OPS DIVISION</span></p>
+        <h1 class="hero-name">
+          <span class="line">JAGAN</span>
+          <span class="line gradient-blade glitch" data-text="PONUGUPATI">PONUGUPATI</span>
+        </h1>
+        <div class="hero-role">
+          <span class="role-prefix">&gt;_</span>
+          <span id="typewriter"></span><span class="caret">▌</span>
+        </div>
+        <p class="hero-summary only-slayer">
+          Data Engineer with <strong>3.5+ years</strong> forging scalable ETL/ELT pipelines.
+          I hunt down data discrepancies, retire legacy SQL Server &amp; SSAS workloads, and breathe life into
+          enterprise analytics with <strong>Azure Data Factory</strong>, <strong>Microsoft Fabric</strong>, <strong>SQL</strong>, <strong>PySpark</strong> &amp; <strong>Power&nbsp;BI</strong>.
         </p>
-        <p>
-          I have also worked on migrating legacy SQL Server and SSAS workloads to Azure and Microsoft Fabric,
-          creating Power BI-ready datasets, and integrating MongoDB data with Salesforce CPQ through Azure SQL.
-          I focus on data quality, validation, reconciliation, monitoring, source control and repeatable deployments.
+        <p class="hero-summary only-corp">
+          Data Engineer with <strong>3.5+ years</strong> of experience designing and developing
+          scalable ETL/ELT pipelines for enterprise data integration, cloud migration, and
+          analytics with <strong>Azure Data Factory</strong>, <strong>Microsoft Fabric</strong>, <strong>SQL</strong>, <strong>Python/PySpark</strong> &amp; <strong>Power&nbsp;BI</strong>.
         </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary"><span>⚔</span> <span data-slayer="View Missions" data-corp="View Projects">View Missions</span></a>
+          <a href="Jagan_Ponugupati_Resume.pdf" target="_blank" class="btn btn-ghost"><span>📜</span> <span data-slayer="Download Scroll (Resume)" data-corp="Download Resume">Download Scroll (Resume)</span></a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num" data-count="3.5" data-suffix="+" data-decimal="1">0</span><span class="stat-label" data-slayer="Years of Training" data-corp="Years of Experience">Years of Training</span></div>
+          <div class="stat"><span class="stat-num" data-count="2" data-suffix="">0</span><span class="stat-label">Enterprise Migrations</span></div>
+          <div class="stat"><span class="stat-num" data-count="3" data-suffix="">0</span><span class="stat-label" data-slayer="Realms Kept in Sync" data-corp="Environments in Sync">Realms Kept in Sync</span></div>
+          <div class="stat"><span class="stat-num" data-count="2" data-suffix="">0</span><span class="stat-label">Fabric Certifications</span></div>
+        </div>
       </div>
-    </section>
 
-    <section id="skills" class="section alt">
-      <div class="section-head"><p class="eyebrow">02 — TOOLKIT</p><h2>Technologies I work with.</h2></div>
-      <div class="skills-grid">
-        <article><h3>Microsoft Fabric</h3><p>Lakehouse · Warehouse · Data Pipelines · PySpark Notebooks · Semantic Models · OneLake · Medallion Architecture</p></article>
-        <article><h3>Azure & Cloud</h3><p>Azure Data Factory · ADLS Gen2 · Blob Storage · Function Apps · Key Vault · SSIS</p></article>
-        <article><h3>Data Engineering</h3><p>ETL/ELT · Metadata-Driven Pipelines · Incremental Loading · Delta MERGE · SCD 1/2 · Data Quality</p></article>
-        <article><h3>Languages</h3><p>SQL · T-SQL · Python · PySpark · SOQL · MQL</p></article>
-        <article><h3>Data Platforms</h3><p>SQL Server · Azure SQL · MongoDB · Oracle · SSAS · Data Warehousing · Dimensional Modeling</p></article>
-        <article><h3>DevOps & BI</h3><p>Azure DevOps · CI/CD · Git · GitHub · Power BI · Azure Boards</p></article>
-      </div>
-    </section>
-
-    <section id="experience" class="section">
-      <div class="section-head"><p class="eyebrow">03 — EXPERIENCE</p><h2>Professional experience.</h2></div>
-      <div class="timeline">
-        <article class="timeline-item">
-          <div class="date">APR 2023 — PRESENT</div>
-          <div class="role"><h3>Data Engineer</h3><p class="company">Amnet Digital · Hyderabad</p></div>
-          <div class="role-body">
-            <p><strong>Microsoft Fabric Modernization & Enterprise Data Migration</strong> · Client: CDW</p>
-            <ul>
-              <li>Developed ADF ETL pipelines to migrate tables and stored procedures from on-premises SQL Server to Azure while preserving business logic.</li>
-              <li>Built parameterized, metadata-driven pipelines using Copy Activity, Lookup, Stored Procedures and ForEach.</li>
-              <li>Implemented incremental loading, Delta MERGE and SCD Type 1 & 2.</li>
-              <li>Migrated SSAS reporting logic into Microsoft Fabric using PySpark and SQL, with Star Schema-modeled Fabric Warehouse tables for Power BI.</li>
-              <li>Built Fabric Lakehouse solutions using Bronze, Silver and Gold layers and OneLake shortcuts.</li>
-              <li>Implemented data quality, validation, reconciliation, monitoring and audit logging.</li>
-              <li>Managed Git-based source control and CI/CD deployments through Azure DevOps across environments.</li>
-            </ul>
+      <div class="hero-photo reveal delay-2">
+        <div class="photo-frame">
+          <div class="frame-ring" aria-hidden="true"></div>
+          <div class="frame-checker" aria-hidden="true"></div>
+          <img src="profile-placeholder.svg" alt="Jagan Ponugupati — portrait" />
+          <div class="photo-tag">
+            <span class="tag-kanji">★</span>
+            <span class="tag-text" data-slayer="DATA SLAYER" data-corp="DATA ENGINEER">DATA SLAYER</span>
           </div>
-        </article>
-        <article class="timeline-item">
-          <div class="date">DEC 2023 — PRESENT</div>
-          <div class="role"><h3>Data Engineer — CPQ Data Migration & Integration</h3><p class="company">Client: CDW · Retail / Sales Operations</p></div>
-          <div class="role-body">
-            <p><strong>Hardware, Software & Subscription Orders</strong></p>
-            <ul>
-              <li>Built end-to-end ADF pipelines to move order data from MongoDB through Azure SQL into Salesforce CPQ.</li>
-              <li>Created T-SQL procedures for transformation, validation and error handling, with dedicated error logging.</li>
-              <li>Implemented activity-level and master-child pipeline logging plus email alerts for success and failure.</li>
-              <li>Used Blob Storage triggers with scheduled and manual reprocessing workflows for event-driven synchronization.</li>
-              <li>Implemented validation and reconciliation across source, staging and Salesforce CPQ systems.</li>
-              <li>Used Azure DevOps CI/CD and GitHub for consistent, traceable releases.</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="projects" class="section alt">
-      <div class="section-head"><p class="eyebrow">04 — PROJECTS</p><h2>Selected work.</h2></div>
-      <div class="project-grid">
-        <article class="project featured">
-          <div class="project-number">01</div>
-          <h3>Microsoft Fabric Modernization</h3>
-          <p>Modernized legacy SQL Server and SSAS workloads into Azure and Microsoft Fabric, including Lakehouse, Warehouse, PySpark, Semantic Models and Power BI-ready datasets.</p>
-          <div class="tags"><span>Microsoft Fabric</span><span>ADF</span><span>PySpark</span><span>SQL</span><span>Power BI</span><span>OneLake</span></div>
-          <div class="flow"><span>SQL / APIs</span><b>→</b><span>ADF</span><b>→</b><span>Lakehouse</span><b>→</b><span>Warehouse</span><b>→</b><span>Power BI</span></div>
-        </article>
-        <article class="project">
-          <div class="project-number">02</div>
-          <h3>Salesforce CPQ Data Integration</h3>
-          <p>Built enterprise ETL pipelines for hardware, software and subscription orders, integrating MongoDB with Salesforce CPQ through Azure SQL staging and transformation.</p>
-          <div class="tags"><span>MongoDB</span><span>ADF</span><span>Azure SQL</span><span>Salesforce CPQ</span><span>REST APIs</span></div>
-          <div class="flow"><span>MongoDB</span><b>→</b><span>ADF</span><b>→</b><span>Azure SQL</span><b>→</b><span>Salesforce CPQ</span></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="certifications" class="section">
-      <div class="section-head"><p class="eyebrow">05 — CERTIFICATIONS</p><h2>Microsoft certified.</h2></div>
-      <div class="cert-grid">
-        <article class="cert"><div class="cert-badge">DP-600</div><div><h3>Microsoft Certified: Fabric Analytics Engineer Associate</h3><p>Earned November 2024</p></div></article>
-        <article class="cert"><div class="cert-badge">DP-700</div><div><h3>Microsoft Certified: Fabric Data Engineer Associate</h3><p>Earned August 2026</p></div></article>
-      </div>
-    </section>
-
-    <section class="section education">
-      <div class="section-head"><p class="eyebrow">06 — EDUCATION</p><h2>Academic background.</h2></div>
-      <div class="education-card">
-        <div><h3>Bachelor of Technology</h3><p>Sir CR Reddy College of Engineering, Eluru</p></div>
-        <strong>CGPA 7.35</strong><span>Aug 2019 — Jul 2022</span>
-      </div>
-    </section>
-
-    <section id="contact" class="section contact">
-      <div class="contact-box">
-        <p class="eyebrow">07 — CONTACT</p>
-        <h2>Let's build reliable data solutions.</h2>
-        <p>For Data Engineering opportunities, technical discussions or collaboration, feel free to reach out.</p>
-        <div class="actions">
-          <a class="btn primary" href="mailto:jagangurutejajob@gmail.com">Email Me</a>
-          <a class="btn secondary" href="https://github.com/Mr-JGT" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn secondary" href="assets/JaganPonugupati_Resume.pdf" download>Resume</a>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
 
-  <footer><p>© 2026 Jagan Guru Teja Ponugupati · Data Engineer</p><p>Built with HTML, CSS & JavaScript</p></footer>
+    <a href="#about" class="scroll-hint" aria-label="Scroll down">
+      <span class="scroll-kanji">▼</span>
+      <span class="scroll-arrow"></span>
+    </a>
+  </section>
+
+  <div class="katana-divider" aria-hidden="true"><div class="blade"></div></div>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="section" id="about">
+    <div class="section-kanji" aria-hidden="true">STORY</div>
+    <div class="section-head reveal">
+      <p class="section-eyebrow" data-slayer="CHAPTER 01 · THE STORY" data-corp="01 · PROFILE">CHAPTER 01 · THE STORY</p>
+      <h2 class="section-title">About <span class="gradient-blade" data-slayer="The Slayer" data-corp="Me">The Slayer</span></h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <div class="photo-frame alt">
+          <img src="profile-placeholder-2.svg" alt="Jagan Ponugupati — profile photo" />
+          <div class="photo-scanline" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="about-text reveal delay-1">
+        <p class="about-lead only-slayer">
+          “Set your heart ablaze” — but keep your <em>pipelines</em> cool, observable, and idempotent.
+        </p>
+        <p class="about-lead only-corp">
+          Reliable pipelines. Validated data. <em>Legacy-to-cloud</em> migrations.
+        </p>
+        <p>
+          I'm <strong>Jagan Guru Teja Ponugupati</strong>, a Data Engineer from India.
+          For 3.5+ years I've been designing and building scalable ETL/ELT pipelines for enterprise
+          data integration, cloud migration, and analytics. From <strong>metadata-driven pipelines</strong>
+          and <strong>Medallion Architecture</strong> to <strong>incremental loading</strong>, <strong>Delta Lake</strong>
+          and <strong>SCD Type 1&nbsp;&amp;&nbsp;2</strong> — I build pipelines that keep data accurate, traceable, and Power BI-ready.
+        </p>
+        <p>
+          Currently at <strong>Amnet Digital, Hyderabad</strong>, I work with client CDW — moving order data
+          from MongoDB into Salesforce CPQ, migrating legacy SQL Server &amp; SSAS workloads to Azure and
+          Microsoft Fabric, and keeping Commercial, Canada &amp; Government environments reliably in sync.
+        </p>
+        <div class="about-tags">
+          <span class="chip">🌊 Medallion Architecture</span>
+          <span class="chip">⚡ Metadata-Driven ETL / ELT</span>
+          <span class="chip">🔥 Legacy-to-Cloud Migration</span>
+          <span class="chip">🧩 Dimensional Modeling</span>
+          <span class="chip">🛡 Data Validation &amp; Reconciliation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="katana-divider" aria-hidden="true"><div class="blade"></div></div>
+
+  <!-- ===================== SKILLS / BREATHING STYLES ===================== -->
+  <section class="section" id="skills">
+    <div class="section-kanji" aria-hidden="true">SKILLS</div>
+    <div class="section-head reveal">
+      <p class="section-eyebrow" data-slayer="CHAPTER 02 · TECHNIQUES" data-corp="02 · EXPERTISE">CHAPTER 02 · TECHNIQUES</p>
+      <h2 class="section-title"><span data-slayer="Breathing" data-corp="Technical">Breathing</span> <span class="gradient-blade" data-slayer="Styles" data-corp="Skills">Styles</span></h2>
+      <p class="section-sub" data-slayer="Every slayer masters their forms. These are mine." data-corp="Core competencies across the Azure &amp; Microsoft Fabric data stack.">Every slayer masters their forms. These are mine.</p>
+    </div>
+
+    <div class="skills-grid">
+      <article class="skill-card water reveal">
+        <div class="skill-top">
+          <span class="skill-kanji">🌊</span>
+          <div>
+            <h3 data-slayer="Water Breathing" data-corp="Cloud &amp; Data Engineering">Water Breathing</h3>
+            <p class="skill-style">Cloud &amp; Data Engineering</p>
+          </div>
+        </div>
+        <ul class="skill-forms">
+          <li><em>1st Form:</em> Azure Data Factory <i class="gauge"><b style="--w:95%"></b></i></li>
+          <li><em>2nd Form:</em> ADLS Gen2 · Blob Storage <i class="gauge"><b style="--w:88%"></b></i></li>
+          <li><em>3rd Form:</em> Azure Function Apps · Key Vault <i class="gauge"><b style="--w:82%"></b></i></li>
+          <li><em>4th Form:</em> SSIS <i class="gauge"><b style="--w:78%"></b></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card flame reveal delay-1">
+        <div class="skill-top">
+          <span class="skill-kanji">🔥</span>
+          <div>
+            <h3 data-slayer="Flame Breathing" data-corp="Microsoft Fabric">Flame Breathing</h3>
+            <p class="skill-style">Microsoft Fabric</p>
+          </div>
+        </div>
+        <ul class="skill-forms">
+          <li><em>1st Form:</em> Lakehouse · Warehouse <i class="gauge"><b style="--w:90%"></b></i></li>
+          <li><em>2nd Form:</em> Data Pipelines · PySpark Notebooks <i class="gauge"><b style="--w:88%"></b></i></li>
+          <li><em>3rd Form:</em> Medallion Architecture · OneLake Shortcuts <i class="gauge"><b style="--w:86%"></b></i></li>
+          <li><em>4th Form:</em> Semantic Models <i class="gauge"><b style="--w:82%"></b></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card thunder reveal delay-2">
+        <div class="skill-top">
+          <span class="skill-kanji">⚡</span>
+          <div>
+            <h3 data-slayer="Thunder Breathing" data-corp="Languages">Thunder Breathing</h3>
+            <p class="skill-style">Languages</p>
+          </div>
+        </div>
+        <ul class="skill-forms">
+          <li><em>1st Form:</em> SQL <i class="gauge"><b style="--w:95%"></b></i></li>
+          <li><em>2nd Form:</em> PySpark <i class="gauge"><b style="--w:86%"></b></i></li>
+          <li><em>3rd Form:</em> Python <i class="gauge"><b style="--w:84%"></b></i></li>
+          <li><em>4th Form:</em> SOQL · MQL <i class="gauge"><b style="--w:74%"></b></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card wind reveal">
+        <div class="skill-top">
+          <span class="skill-kanji">🌪️</span>
+          <div>
+            <h3 data-slayer="Wind Breathing" data-corp="ETL &amp; Data Processing">Wind Breathing</h3>
+            <p class="skill-style">ETL &amp; Data Processing</p>
+          </div>
+        </div>
+        <ul class="skill-forms">
+          <li><em>1st Form:</em> Metadata-Driven ETL / ELT <i class="gauge"><b style="--w:93%"></b></i></li>
+          <li><em>2nd Form:</em> Incremental Loading <i class="gauge"><b style="--w:92%"></b></i></li>
+          <li><em>3rd Form:</em> Delta Lake · Delta MERGE <i class="gauge"><b style="--w:86%"></b></i></li>
+          <li><em>4th Form:</em> SCD Type 1 &amp; 2 <i class="gauge"><b style="--w:90%"></b></i></li>
+          <li><em>5th Form:</em> Data Validation &amp; Reconciliation <i class="gauge"><b style="--w:92%"></b></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card stone reveal delay-1">
+        <div class="skill-top">
+          <span class="skill-kanji">🗿</span>
+          <div>
+            <h3 data-slayer="Stone Breathing" data-corp="Databases &amp; Data Warehousing">Stone Breathing</h3>
+            <p class="skill-style">Databases &amp; Data Warehousing</p>
+          </div>
+        </div>
+        <ul class="skill-forms">
+          <li><em>1st Form:</em> SQL Server · Azure SQL Database <i class="gauge"><b style="--w:93%"></b></i></li>
+          <li><em>2nd Form:</em> Data Warehousing · Dimensional Modeling <i class="gauge"><b style="--w:88%"></b></i></li>
+          <li><em>3rd Form:</em> SSAS · SSMS <i class="gauge"><b style="--w:84%"></b></i></li>
+          <li><em>4th Form:</em> MongoDB <i class="gauge"><b style="--w:80%"></b></i></li>
+          <li><em>5th Form:</em> Oracle <i class="gauge"><b style="--w:70%"></b></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card mist reveal delay-2">
+        <div class="skill-top">
+          <span class="skill-kanji">🌫️</span>
+          <div>
+            <h3 data-slayer="Mist Breathing" data-corp="Integration, DevOps &amp; BI">Mist Breathing</h3>
+            <p class="skill-style">Integration, DevOps &amp; BI</p>
+          </div>
+        </div>
+        <ul class="skill-forms">
+          <li><em>1st Form:</em> REST APIs <i class="gauge"><b style="--w:85%"></b></i></li>
+          <li><em>2nd Form:</em> Salesforce CPQ <i class="gauge"><b style="--w:80%"></b></i></li>
+          <li><em>3rd Form:</em> Azure DevOps CI/CD <i class="gauge"><b style="--w:87%"></b></i></li>
+          <li><em>4th Form:</em> Git · GitHub <i class="gauge"><b style="--w:88%"></b></i></li>
+          <li><em>5th Form:</em> Power BI <i class="gauge"><b style="--w:82%"></b></i></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <div class="katana-divider" aria-hidden="true"><div class="blade"></div></div>
+
+  <!-- ===================== EXPERIENCE / RANKS ===================== -->
+  <section class="section" id="experience">
+    <div class="section-kanji" aria-hidden="true">RANKS</div>
+    <div class="section-head reveal">
+      <p class="section-eyebrow" data-slayer="CHAPTER 03 · RANK PROGRESSION" data-corp="03 · CAREER">CHAPTER 03 · RANK PROGRESSION</p>
+      <h2 class="section-title"><span data-slayer="The" data-corp="Work">The</span> <span class="gradient-blade" data-slayer="Path" data-corp="Experience">Path</span></h2>
+      <p class="section-sub" data-slayer="From recruit to elite — every rank earned in the field." data-corp="3.5+ years of enterprise data engineering — integration, cloud migration &amp; analytics.">From recruit to elite — every rank earned in the field.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="tl-rank"><span class="rank-kanji">A</span><span class="rank-name">VETERAN</span></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <h3>Data Engineer</h3>
+            <span class="tl-when">Apr 2023 — Present</span>
+          </div>
+          <p class="tl-org">Amnet Digital · Hyderabad, India</p>
+          <ul>
+            <li>Designed and delivered end-to-end ETL/ELT pipelines in <strong>Azure Data Factory</strong> and <strong>Microsoft Fabric</strong> for enterprise client <strong>CDW</strong> — data integration, cloud migration, and analytics.</li>
+            <li>Migrated on-premises SQL Server tables, stored procedures, and legacy <strong>SSAS cubes</strong> to Azure &amp; Microsoft Fabric while preserving existing business logic.</li>
+            <li>Built parameterized, metadata-driven pipelines with incremental loading, Delta MERGE, and <strong>SCD Type 1&nbsp;&amp;&nbsp;2</strong>.</li>
+            <li>Set up event-driven syncs with Azure Blob Storage triggers, keeping <strong>Commercial, Canada &amp; Government</strong> environments reliably in sync.</li>
+            <li>Implemented data validation, reconciliation, and audit logging, and managed Git-based CI/CD deployments with <strong>Azure DevOps</strong> across dev, test &amp; production.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="katana-divider" aria-hidden="true"><div class="blade"></div></div>
+
+  <!-- ===================== PROJECTS / MISSIONS ===================== -->
+  <section class="section" id="projects">
+    <div class="section-kanji" aria-hidden="true">OPS</div>
+    <div class="section-head reveal">
+      <p class="section-eyebrow" data-slayer="CHAPTER 04 · FIELD MISSIONS" data-corp="04 · PROJECTS">CHAPTER 04 · FIELD MISSIONS</p>
+      <h2 class="section-title"><span data-slayer="Missions" data-corp="Key">Missions</span> <span class="gradient-blade" data-slayer="Cleared" data-corp="Projects">Cleared</span></h2>
+      <p class="section-sub" data-slayer="Legacy cubes, shifting schemas, fragile migrations — all dispatched." data-corp="Enterprise data migration, CPQ integration, and Microsoft Fabric analytics delivery.">Legacy cubes, shifting schemas, fragile migrations — all dispatched.</p>
+    </div>
+
+    <div class="missions-grid">
+      <article class="mission-card reveal">
+        <div class="mission-rank s-rank" data-slayer="S-RANK" data-corp="FLAGSHIP">S-RANK</div>
+        <h3>CPQ Data Migration &amp; Integration</h3>
+        <p class="mission-when">Dec 2023 — Present · Client: CDW</p>
+        <p class="mission-demon"><span>⚡ Challenge:</span> <em>Hardware, software &amp; subscription orders across 3 environments</em></p>
+        <ul>
+          <li>Built end-to-end ADF pipelines loading order data from <strong>MongoDB into Salesforce CPQ</strong>, with Azure SQL Server as the staging &amp; transformation layer.</li>
+          <li>Wrote SQL Server stored procedures for transformation, validation &amp; error handling — logging failed rows to a dedicated error table for diagnosis.</li>
+          <li>Set up real-time, event-driven sync via <strong>Azure Blob Storage triggers</strong> plus scheduled &amp; manual reprocessing — resolving deadlocks and keeping <strong>Commercial, Canada &amp; Government</strong> in sync.</li>
+          <li>Added activity- and pipeline-level logging (master–child structure), email alerts, and reconciliation checks across source, staging &amp; CPQ.</li>
+        </ul>
+        <div class="mission-tech"><span>MongoDB</span><span>ADF</span><span>SQL Server</span><span>Salesforce CPQ</span><span>Blob Storage</span><span>Key Vault</span><span>REST APIs</span><span>Azure DevOps</span></div>
+      </article>
+
+      <article class="mission-card reveal delay-1">
+        <div class="mission-rank s-rank" data-slayer="S-RANK" data-corp="FLAGSHIP">S-RANK</div>
+        <h3>Legacy-to-Cloud &amp; Fabric Migration</h3>
+        <p class="mission-when">2023 — Present · Client: CDW</p>
+        <p class="mission-demon"><span>⚡ Challenge:</span> <em>On-prem SQL Server &amp; legacy SSAS cubes</em></p>
+        <ul>
+          <li>Developed ADF pipelines migrating tables &amp; stored procedures from on-premises <strong>SQL Server to Azure</strong>, centralizing multiple source systems while preserving business logic.</li>
+          <li>Built parameterized, metadata-driven pipelines (Lookup, ForEach, Copy, Stored Procedure) ingesting from SQL Server &amp; REST APIs, with incremental loading, Delta MERGE &amp; <strong>SCD Type 1&nbsp;&amp;&nbsp;2</strong>.</li>
+          <li>Migrated <strong>SSAS cube logic to Microsoft Fabric</strong> — re-engineered transformations in PySpark &amp; SQL, designed star-schema Warehouse tables for Power BI, and decommissioned legacy SSAS.</li>
+          <li>Validated migrated data with a reusable <strong>Python automation script</strong>, backed by reconciliation, monitoring &amp; audit logging.</li>
+        </ul>
+        <div class="mission-tech"><span>SQL Server</span><span>SSIS</span><span>SSAS</span><span>ADF</span><span>ADLS Gen2</span><span>Fabric Warehouse</span><span>PySpark</span><span>Power BI</span></div>
+      </article>
+    </div>
+  </section>
+
+  <div class="katana-divider" aria-hidden="true"><div class="blade"></div></div>
+
+  <!-- ===================== HONORS ===================== -->
+  <section class="section" id="honors">
+    <div class="section-kanji" aria-hidden="true">HONORS</div>
+    <div class="section-head reveal">
+      <p class="section-eyebrow" data-slayer="CHAPTER 05 · FINAL SELECTION" data-corp="05 · CREDENTIALS">CHAPTER 05 · FINAL SELECTION</p>
+      <h2 class="section-title">Certifications <span class="gradient-blade">&amp; Education</span></h2>
+    </div>
+
+    <div class="honors-grid">
+      <div class="honors-col reveal">
+        <h3 class="honors-sub">🏮 Certifications</h3>
+        <ul class="cert-list">
+          <li><span class="cert-mark">DP</span> <span>Microsoft Certified: Fabric Analytics Engineer Associate (DP-600)<small>Earned Nov 2024 · Valid through Nov 2027</small></span></li>
+          <li><span class="cert-mark">DP</span> <span>Microsoft Certified: Fabric Data Engineer Associate (DP-700)<small>Earned Aug 2026 · Valid through Aug 2027</small></span></li>
+        </ul>
+      </div>
+      <div class="honors-col reveal delay-1">
+        <h3 class="honors-sub">🎓 Education</h3>
+        <div class="award-card">
+          <span class="award-x">B.Tech</span>
+          <div><strong>Sir CR Reddy College of Engineering, Eluru</strong><p>Bachelor of Technology · 2019 – 2022 · CGPA 7.35</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="katana-divider" aria-hidden="true"><div class="blade"></div></div>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="section contact" id="contact">
+    <div class="section-kanji" aria-hidden="true">LINK</div>
+    <div class="section-head reveal">
+      <p class="section-eyebrow" data-slayer="FINAL CHAPTER · OPEN A COMMS LINK" data-corp="06 · CONTACT">FINAL CHAPTER · OPEN A COMMS LINK</p>
+      <h2 class="section-title"><span data-slayer="Summon" data-corp="Get In">Summon</span> <span class="gradient-blade" data-slayer="The Slayer" data-corp="Touch">The Slayer</span></h2>
+      <p class="section-sub" data-slayer="Got a tough data challenge that needs slaying? Let's talk." data-corp="Open to data engineering opportunities across Azure &amp; Microsoft Fabric. Let's talk.">Got a tough data challenge that needs slaying? Let's talk.</p>
+    </div>
+
+    <div class="contact-grid reveal">
+      <a class="contact-card" href="mailto:jagangurutejajob@gmail.com">
+        <span class="contact-icon">📧</span>
+        <span class="contact-label">Email</span>
+        <span class="contact-value">jagangurutejajob@gmail.com</span>
+      </a>
+      <a class="contact-card" href="tel:+918096083180">
+        <span class="contact-icon">📱</span>
+        <span class="contact-label">Phone</span>
+        <span class="contact-value">+91 809-608-3180</span>
+      </a>
+      <div class="contact-card">
+        <span class="contact-icon">📍</span>
+        <span class="contact-label">Base of Operations</span>
+        <span class="contact-value">Hyderabad, India</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="checker-strip" aria-hidden="true"></div>
+    <p class="footer-quote" data-slayer="“No matter how devastated the data may be — keep the pipeline running.”" data-corp="“Reliable data. Governed analytics. Delivered with total concentration.”">“No matter how devastated the data may be — keep the pipeline running.”</p>
+    <p class="footer-meta">© <span id="year"></span> Jagan Ponugupati · <span data-slayer="Forged with Total Concentration" data-corp="Built with precision &amp; passion">Forged with Total Concentration</span> · Data Engineer</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>

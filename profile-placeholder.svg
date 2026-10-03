@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 960" width="1088" height="960">
+  <!-- placeholder portrait (same 1088x960 ratio as the original photos) — replace with a real photo.
+       Artwork stays above y≈630: the hero's photo tag covers the lower-right corner on phones. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1626"/>
+      <stop offset="1" stop-color="#1f3a5f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.385" r="0.5">
+      <stop offset="0" stop-color="#8fd3ff" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#8fd3ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+  <rect width="1088" height="960" fill="url(#bg)"/>
+  <rect width="1088" height="960" fill="url(#grid)"/>
+  <rect width="1088" height="960" fill="url(#glow)"/>
+  <circle cx="544" cy="370" r="228" fill="none" stroke="#ffffff" stroke-opacity="0.28" stroke-width="4"/>
+  <circle cx="544" cy="370" r="262" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="3" stroke-dasharray="8 16"/>
+  <text x="544" y="453" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="236" font-weight="700" fill="#ffffff">JP</text>
+</svg>
